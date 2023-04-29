@@ -32,7 +32,7 @@ else:
             print("{:10.2f} {:10.2f}".format(x, f(x)))
 
         except ZeroDivisionError as err:
-            print("{:10.2f}".format(x), "         -")
+            print("{:10.2f}".format(x, '-'))
         
         finally:
             x += h
