@@ -25,33 +25,20 @@ def print_accounts(accounts):
 
 
 def transfer_money(accounts, account_from, account_to, value):
-    try:
-        if value < 0:
-            raise Zashchita_ot_Obyegoroviniya("Нельзя перевести отрицательную сумму деняк.")
-        elif value > accounts[account_from]:
-            raise NoMoneyToWithdrawError("Недостаточно средств для совершения транзакции.")
-        else:
-            account_from_money = accounts[account_from]
-            account_to_money = accounts[account_to]
-            try:
-                accounts[account_from] -= value
-                accounts[account_to] += value
-            except:
-                accounts[account_from] = account_from_money
-                accounts[account_to] = account_to_money
-                raise PaymentError
-    except Zashchita_ot_Obyegoroviniya as err:
-        print()
-        print(str(err))
-        print()
-    except NoMoneyToWithdrawError as err:
-        print()
-        print(str(err))
-        print()
-    except Exception:
-        print()
-        print("Произошла неизвестная ошибка.")
-        print()
+    if value < 0:
+        raise Zashchita_ot_Obyegoroviniya("Нельзя перевести отрицательную сумму деняк.")
+    elif value > accounts[account_from]:
+        raise NoMoneyToWithdrawError("Недостаточно средств для совершения транзакции.")
+    else:
+        account_from_money = accounts[account_from]
+        account_to_money = accounts[account_to]
+        try:
+            accounts[account_from] -= value
+            accounts[account_to] += value
+        except Exception:
+            accounts[account_from] = account_from_money
+            accounts[account_to] = account_to_money
+            raise PaymentError
 
 
 if __name__ == "__main__":
@@ -73,9 +60,22 @@ if __name__ == "__main__":
     try:
         payment_info["value"] = int(input("Сумма = "))
 
-        transfer_money(accounts, **payment_info)
-
-        print("OK!")
+        try:
+            transfer_money(accounts, **payment_info)
+        except Zashchita_ot_Obyegoroviniya as err:
+            print()
+            print(str(err))
+            print()
+        except NoMoneyToWithdrawError as err:
+            print()
+            print(str(err))
+            print()
+        except Exception:
+            print()
+            print("Произошла неизвестная ошибка.")
+            print()
+        else:
+            print("OK!")
     except ValueError:
         print()
         print("Нерекомендуется пользоваться банковскими услугами в нетрезвом состоянии. Проверьте вводные данные.")
