@@ -14,6 +14,10 @@ def f(x):
 try:
     k = int(input("Введите границу интервала [-k; k]: "))
     h = float(input("Введите шаг табуляции: "))
+    if k <= 0 or h <= 0:
+        raise ValueError("Значения k и h должны быть положительными")
+    if h >= k:
+        raise ValueError("Значение h не должно быть больше или равняться значению k")
     
 except ValueError as err:
     print("Ошибочка вышла, " + str(err) + ". Проверьте введённые данные.")
